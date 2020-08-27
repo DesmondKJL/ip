@@ -10,20 +10,22 @@ public class Duke {
         System.out.println("Hello from\n" + logo);
         System.out.println("Hello! I'm Duke\n");
         System.out.println("What can I do for you?\n");
-
+        Scanner in = new Scanner(System.in);
 
         String str1 = "bye";
         String line;
-        line = in.nextLine();
-        int var1 = str1.compareTo( line );
+        int var1 = 1;
+        while(var1 != 0) {
 
-        if (var1 == 0){
-            System.out.println("Bye. Hope to see you again soon!\n");
-        }
+            line = in.nextLine();
+            var1 = str1.compareTo(line);
 
-        else{
+
             System.out.println(line);
         }
+        System.out.println("Bye. Hope to see you again soon!\n");
+
+
 
 
 
