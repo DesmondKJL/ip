@@ -13,23 +13,35 @@ public class Duke {
         Scanner in = new Scanner(System.in);
 
         String str1 = "bye";
+        String str2 = "list";
         String line;
+        String[] list;
+        list = new String[100];
+
         int var1 = 1;
+        int var2 = 1;
+        int i = 0;
+        int numeration = 1;
         while(var1 != 0) {
 
             line = in.nextLine();
             var1 = str1.compareTo(line);
+            var2 = str2.compareTo(line);
+            if(var2 == 0){
+                for(int k = 0; k < i; k++){
+                    System.out.println(numeration + ". " + list[k]);
+                    numeration++;
+                }
 
+            }
+            else{
+                list[i] = line;
+                i++;
+                System.out.println("added: " + line);
+            }
 
-            System.out.println(line);
         }
         System.out.println("Bye. Hope to see you again soon!\n");
-
-
-
-
-
-
-
+        
     }
 }
