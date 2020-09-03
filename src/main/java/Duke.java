@@ -28,6 +28,9 @@ public class Duke {
         //variables to check command
         int hasBye = 1;
         int hasList = 1;
+        int hasTodo = 1;
+        int hasDeadline = 1;
+        int hasEvent = 1;
         boolean startsWithdone = false;
         boolean isDone = false;
 
@@ -53,7 +56,10 @@ public class Duke {
             else if(startsWithdone == true) { //done command given
                 itemDone = Integer.parseInt(line.substring(5));
                 list[itemDone].markAsDone();
+                System.out.println("Nice! I've marked this task as done:\n    \u2713 " + list[itemDone].getDescription());
             }
+
+            //else if()
 
             else { //add new item to list
                 list[itemNumber] = new Task(line, isDone);
