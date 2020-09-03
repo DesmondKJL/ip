@@ -31,7 +31,7 @@ public class Duke {
         int hasTodo = 1;
         int hasDeadline = 1;
         int hasEvent = 1;
-        boolean startsWithdone = false;
+        boolean startsWithDone = false;
         boolean isDone = false;
 
 
@@ -43,7 +43,7 @@ public class Duke {
             //checking command
             hasBye = ("bye").compareTo(line);
             hasList = ("list").compareTo(line);
-            startsWithdone= line.startsWith("done");
+            startsWithDone= line.startsWith("done");
 
             if(hasList == 0) { //list command given
                 for(numeration = 1; numeration < itemNumber; numeration++) {
@@ -53,7 +53,7 @@ public class Duke {
 
             }
 
-            else if(startsWithdone == true) { //done command given
+            else if(startsWithDone == true) { //done command given
                 itemDone = Integer.parseInt(line.substring(5));
                 list[itemDone].markAsDone();
                 System.out.println("Nice! I've marked this task as done:\n    \u2713 " + list[itemDone].getDescription());
