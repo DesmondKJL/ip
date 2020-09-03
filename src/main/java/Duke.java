@@ -13,72 +13,56 @@ public class Duke {
         System.out.println("What can I do for you?\n");
         Scanner in = new Scanner(System.in);
 
-
+        //user inputs into line string
         String line;
-        int[] state;
-        state = new int[100];
+
+        //creating list of tasks
         Task[] list;
         list = new Task[100];
 
-        int hasBye = 1;
-        int hasList = 1;
-        boolean isDone = false;
+        //variables for list
         int itemNumber = 1;
         int itemDone = 0;
-        boolean startswithDone = false;
+        int numeration = 1;
 
-
+        //variables to check command
+        int hasBye = 1;
+        int hasList = 1;
+        boolean startsWithdone = false;
+        boolean isDone = false;
 
 
         while(hasBye != 0) {
 
+            //waiting for user input
             line = in.nextLine();
+
+            //checking command
             hasBye = ("bye").compareTo(line);
             hasList = ("list").compareTo(line);
-            startswithDone= line.startsWith("done");
-
+            startsWithdone= line.startsWith("done");
 
             if(hasList == 0) { //list command given
-                for(int numeration = 1; numeration < itemNumber; numeration++) {
+                for(numeration = 1; numeration < itemNumber; numeration++) {
 
                     System.out.println(numeration + " " + list[numeration].getStatusIcon() + " " + list[numeration].getDescription());
                 }
 
             }
 
-            else if(startswithDone == true) {
+            else if(startsWithdone == true) { //done command given
                 itemDone = Integer.parseInt(line.substring(5));
                 list[itemDone].markAsDone();
             }
 
-            else {
+            else { //add new item to list
                 list[itemNumber] = new Task(line, isDone);
                 itemNumber++;
                 System.out.println("added: " + line);
             }
-
-
 
         }
         System.out.println("Bye. Hope to see you again soon!\n");
 
     }
 }
-
-//    String notDone = ". [✗] ";
-//    String isDone = ". [✓] ";        int numeration = 1;
-//        if(var2 == 0){ // list command
-//        for(int k = 0; k < itemNumber; k++){
-//        if(state[k] == 1){
-//        System.out.println(numeration + isDone + list[k]);
-//        }
-//        else{
-//        System.out.println(numeration + notDone + list[k]);
-//        }
-//
-//        numeration++;
-//
-//        }
-//
-//        }
-//        else{
