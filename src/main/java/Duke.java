@@ -87,7 +87,7 @@ public class Duke {
                 itemNumber++;
 
 
-            } else { //add new item to list
+            } else if(!startsWithBye) { //add new item to list
                 list[itemNumber] = new Task(line, isDone);
                 itemNumber++;
                 System.out.println("added: " + line);
