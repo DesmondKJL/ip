@@ -15,8 +15,11 @@ public class Task {
         return description; //return tick or X symbols
     }
 
+    public String toString() {
+        return getStatusIcon() + " " + getDescription();
+    }
+
     public void markAsDone() {
         this.isDone = true;
-
     }
 }

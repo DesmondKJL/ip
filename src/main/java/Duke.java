@@ -26,42 +26,68 @@ public class Duke {
         int numeration = 1;
 
         //variables to check command
-        int hasBye = 1;
-        int hasList = 1;
-        int hasTodo = 1;
-        int hasDeadline = 1;
-        int hasEvent = 1;
+        boolean startsWithBye = false;
+        boolean startsWithList = false;
         boolean startsWithDone = false;
+        boolean startsWithTodo = false;
+        boolean startsWithDeadline = false;
+        boolean startsWithEvent = false;
         boolean isDone = false;
 
+        //other variables
+        int indexOfBackslash = 0;
+        String deadlineDate;
 
-        while(hasBye != 0) {
+
+        while (!startsWithBye) {
 
             //waiting for user input
             line = in.nextLine();
 
             //checking command
-            hasBye = ("bye").compareTo(line);
-            hasList = ("list").compareTo(line);
-            startsWithDone= line.startsWith("done");
+            startsWithBye = line.startsWith("bye");
+            startsWithList = line.startsWith("list");
+            startsWithDone = line.startsWith("done");
+            startsWithDeadline = line.startsWith("deadline");
+            startsWithTodo = line.startsWith("todo");
+            startsWithEvent = line.startsWith("event");
 
-            if(hasList == 0) { //list command given
-                for(numeration = 1; numeration < itemNumber; numeration++) {
 
-                    System.out.println(numeration + " " + list[numeration].getStatusIcon() + " " + list[numeration].getDescription());
+            if (startsWithList) { //list command given
+                System.out.println("Here are the tasks in your list:");
+                for (numeration = 1; numeration < itemNumber; numeration++) {
+                    //System.out.println(numeration + " " + list[numeration].getStatusIcon() + " " + list[numeration].getDescription());
+                    System.out.println(numeration + "." + list[numeration].toString());
                 }
 
-            }
-
-            else if(startsWithDone == true) { //done command given
+            } else if (startsWithDone) { //done command given
                 itemDone = Integer.parseInt(line.substring(5));
                 list[itemDone].markAsDone();
                 System.out.println("Nice! I've marked this task as done:\n    \u2713 " + list[itemDone].getDescription());
-            }
 
-            //else if()
+            } else if (startsWithDeadline) { //deadline command given
+                indexOfBackslash = line.indexOf("/");
+                deadlineDate = line.substring(indexOfBackslash + 4);
+                line = line.substring(9, indexOfBackslash - 1);
+                list[itemNumber] = new Deadline(line, deadlineDate, isDone);
+                System.out.println("Got it. I've added this task:\n  " + list[itemNumber].toString() + "\nNow you have " + itemNumber + " tasks in the list.");
+                itemNumber++;
 
-            else { //add new item to list
+            } else if (startsWithTodo) { //todo command given
+                list[itemNumber] = new Todo(line.substring(5), isDone);
+                System.out.println("Got it. I've added this task:\n  " + list[itemNumber].toString() + "\nNow you have " + itemNumber + " tasks in the list.");
+                itemNumber++;
+
+            } else if (startsWithEvent) { //event command given
+                indexOfBackslash = line.indexOf("/");
+                deadlineDate = line.substring(indexOfBackslash + 4);
+                line = line.substring(6, indexOfBackslash - 1);
+                list[itemNumber] = new Event(line, deadlineDate, isDone);
+                System.out.println("Got it. I've added this task:\n  " + list[itemNumber].toString() + "\nNow you have " + itemNumber + " tasks in the list.");
+                itemNumber++;
+
+
+            } else { //add new item to list
                 list[itemNumber] = new Task(line, isDone);
                 itemNumber++;
                 System.out.println("added: " + line);
