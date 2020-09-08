@@ -56,7 +56,6 @@ public class Duke {
             if (startsWithList) { //list command given
                 System.out.println("Here are the tasks in your list:");
                 for (numeration = 1; numeration < itemNumber; numeration++) {
-                    //System.out.println(numeration + " " + list[numeration].getStatusIcon() + " " + list[numeration].getDescription());
                     System.out.println(numeration + "." + list[numeration].toString());
                 }
 
@@ -85,14 +84,7 @@ public class Duke {
                 list[itemNumber] = new Event(line, deadlineDate, isDone);
                 System.out.println("Got it. I've added this task:\n  " + list[itemNumber].toString() + "\nNow you have " + itemNumber + " tasks in the list.");
                 itemNumber++;
-
-
-            } else if(!startsWithBye) { //add new item to list
-                list[itemNumber] = new Task(line, isDone);
-                itemNumber++;
-                System.out.println("added: " + line);
             }
-
         }
         System.out.println("Bye. Hope to see you again soon!\n");
 
