@@ -12,7 +12,7 @@ public class Duke {
     protected static final String DONE_ERROR = "☹ OOPS!!! Please input the command correctly (e.g done 1)";
     protected static final String GENERAL_ERROR = "☹ OOPS!!! I'm sorry, but I don't know what that means :-(";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws DukeExceptions{
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
                 + "| | | | | | | |/ / _ \\\n"
@@ -95,6 +95,8 @@ public class Duke {
                     list[itemNumber] = new Event(line, deadlineDate, isDone);
                     System.out.println("Got it. I've added this task:\n  " + list[itemNumber].toString() + "\nNow you have " + itemNumber + " tasks in the list.");
                     itemNumber++;
+                } else{
+                    throw new DukeExceptions();
                 }
 
 
@@ -110,6 +112,8 @@ public class Duke {
                 System.out.println(DONE_WRONG_NUMBER_ERROR);
             } catch (NumberFormatException e) {
                 System.out.println(DONE_ERROR);
+            } catch (DukeExceptions e){
+                System.out.println("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
             }
         }
 
