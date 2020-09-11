@@ -113,7 +113,7 @@ public class Duke {
             } catch (NumberFormatException e) {
                 System.out.println(DONE_ERROR);
             } catch (DukeExceptions e){
-                System.out.println("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
+                System.out.println(GENERAL_ERROR);
             }
         }
 
