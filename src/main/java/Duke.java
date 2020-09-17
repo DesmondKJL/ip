@@ -16,10 +16,17 @@ public class Duke {
     protected static final String DONE_ERROR = "☹ OOPS!!! Please input the command correctly (e.g done 1)";
     protected static final String GENERAL_ERROR = "☹ OOPS!!! I'm sorry, but I don't know what that means :-(";
 
-    public static void main(String[] args) throws DukeExceptions{
+    public static void main(String[] args) throws DukeExceptions {
 
         File file = new File("/Users/desmond/ip/data");
         file.mkdir();
+        File file1 = new File("/Users/desmond/ip/data/duke.txt");
+        try {
+            file1.createNewFile();
+        } catch (IOException e) {
+            System.out.println("An error occured");
+        }
+
 
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
