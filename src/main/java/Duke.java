@@ -35,7 +35,7 @@ public class Duke {
         list = new Task[100];
 
         //variables for list
-        int itemNumber = 1;
+        int itemNumber = 0;
         int itemDone = 0;
         int numeration = 1;
         int taskNumber = 0;
@@ -73,45 +73,51 @@ public class Duke {
 
                 if (startsWithList) { //list command given
                     System.out.println("Here are the tasks in your list:");
-                    for (numeration = 1; numeration < itemNumber; numeration++) {
-                        System.out.println(numeration + "." + list[numeration].toString());
+                    for (numeration = 0; numeration < itemNumber; numeration++) {
+                        System.out.println(numeration + 1 + "." + taskings.get(numeration).toString());
                     }
 
                 } else if (startsWithDone) { //done command given
                     itemDone = Integer.parseInt(line.substring(5));
-                    list[itemDone].markAsDone();
-                    System.out.println("Nice! I've marked this task as done:\n    \u2713 " + list[itemDone].getDescription());
+//                    list[itemDone].markAsDone();
+                    taskings.get((itemDone - 1)).markAsDone();
+                    System.out.println("Nice! I've marked this task as done:\n    \u2713 " + taskings.get(itemDone - 1).getDescription());
+//                    System.out.println("Nice! I've marked this task as done:\n    \u2713 " + list[itemDone].getDescription());
 
                 } else if (startsWithDeadline) { //deadline command given
                     indexOfBackslash = line.indexOf("/");
                     deadlineDate = line.substring(indexOfBackslash + 4);
                     line = line.substring(9, indexOfBackslash - 1);
-                    list[itemNumber] = new Deadline(line, deadlineDate, isDone);
-                    System.out.println("Got it. I've added this task:\n  " + list[itemNumber].toString() + "\nNow you have " + itemNumber + " tasks in the list.");
-                    itemNumber++;
+//                    list[itemNumber] = new Deadline(line, deadlineDate, isDone);
+//                    System.out.println("Got it. I've added this task:\n  " + list[itemNumber].toString() + "\nNow you have " + itemNumber + " tasks in the list.");
                     taskings.add(new Deadline(line, deadlineDate, isDone));
-                    System.out.println(taskings.get(0).toString());
-
+                    System.out.println("Got it. I've added this task:\n  " + taskings.get(itemNumber).toString() + "\nNow you have " + (itemNumber + 1) + " tasks in the list.");
+                    itemNumber++;
 
                 } else if (startsWithTodo) { //todo command given
-                    list[itemNumber] = new Todo(line.substring(5), isDone);
-                    System.out.println("Got it. I've added this task:\n  " + list[itemNumber].toString() + "\nNow you have " + itemNumber + " tasks in the list.");
+//                    list[itemNumber] = new Todo(line.substring(5), isDone);
+                    taskings.add(new Todo(line.substring(5), isDone));
+                    System.out.println("Got it. I've added this task:\n  " + taskings.get(itemNumber).toString() + "\nNow you have " + (itemNumber + 1 )+ " tasks in the list.");
                     itemNumber++;
 
                 } else if (startsWithEvent) { //event command given
                     indexOfBackslash = line.indexOf("/");
                     deadlineDate = line.substring(indexOfBackslash + 4);
                     line = line.substring(6, indexOfBackslash - 1);
-                    list[itemNumber] = new Event(line, deadlineDate, isDone);
-                    System.out.println("Got it. I've added this task:\n  " + list[itemNumber].toString() + "\nNow you have " + itemNumber + " tasks in the list.");
+                    taskings.add(new Event(line, deadlineDate, isDone));
+//                    list[itemNumber] = new Event(line, deadlineDate, isDone);
+//                    System.out.println("Got it. I've added this task:\n  " + list[itemNumber].toString() + "\nNow you have " + itemNumber + " tasks in the list.");
+                    System.out.println("Got it. I've added this task:\n  " + taskings.get(itemNumber).toString() + "\nNow you have " + (itemNumber + 1) + " tasks in the list.");
                     itemNumber++;
+
                 } else if (startsWithDelete) {
 
                     taskNumber = Integer.parseInt(line.substring(7));
-                    System.out.println("Noted. I've removed this task: \n  " + list[taskNumber].toString() + "\nNow you have " + (itemNumber - 2) + " tasks in the list.");
+                    System.out.println("Noted. I've removed this task: \n  " + taskings.get(taskNumber - 1).toString() + "\nNow you have " + (itemNumber - 1) + " tasks in the list.");
+                    taskings.remove(taskNumber - 1);
                     itemNumber--;
 
-                } else {
+                } else if (!startsWithBye) {
                     throw new DukeExceptions();
                 }
 
