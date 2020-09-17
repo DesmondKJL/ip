@@ -1,4 +1,8 @@
 import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 
 public class Duke {
@@ -13,6 +17,10 @@ public class Duke {
     protected static final String GENERAL_ERROR = "☹ OOPS!!! I'm sorry, but I don't know what that means :-(";
 
     public static void main(String[] args) throws DukeExceptions{
+
+        File file = new File("/Users/desmond/ip/data");
+        file.mkdir();
+
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
                 + "| | | | | | | |/ / _ \\\n"
