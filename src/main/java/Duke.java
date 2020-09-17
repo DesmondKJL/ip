@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,6 +18,7 @@ public class Duke {
     protected static final String GENERAL_ERROR = "☹ OOPS!!! I'm sorry, but I don't know what that means :-(";
 
     public static void main(String[] args) throws DukeExceptions {
+        ArrayList<Task> taskings = new ArrayList<>();
 
         File file = new File("/Users/desmond/ip/data");
         file.mkdir();
@@ -25,6 +27,51 @@ public class Duke {
             file1.createNewFile();
         } catch (IOException e) {
             System.out.println("An error occured");
+        }
+
+        try {
+
+            File file2 = new File("/Users/desmond/ip/data/duke.txt");
+            Scanner sc = new Scanner(file2);
+            sc.useDelimiter("/");
+
+            while (sc.hasNext()) {
+
+                //Get the info for the pet
+                Task loadingTask;
+
+                String function = sc.next();
+
+
+                String done = sc.next();
+                boolean isDone = false;
+
+                if (done == "1") {
+                    isDone = true;
+                }
+
+
+                if (function == "D") {
+                    String description = sc.next();
+                    String date = sc.next();
+                    loadingTask = new Deadline (description, date, isDone);
+                    taskings.add(loadingTask);
+                } else if (function == "T") {
+                      String restOfDescription = sc.next();
+                    loadingTask = new Todo (restOfDescription,isDone);
+                    taskings.add(loadingTask);
+                } else if (function == "E") {
+                    String description = sc.next();
+                    String date = sc.next();
+                    loadingTask = new Event (description, date, isDone);
+                    taskings.add(loadingTask);
+                }
+        }
+
+            sc.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
 
 
@@ -80,7 +127,7 @@ public class Duke {
             try {
 
                 if (startsWithList) { //list command given
-                    System.out.println("Here are the tasks in your list:");
+                    System.out.println("Here are the tasks in your list: ");
                     for (numeration = 1; numeration < itemNumber; numeration++) {
                         System.out.println(numeration + "." + list[numeration].toString());
                     }
