@@ -18,15 +18,14 @@ public class Duke {
     protected static final String GENERAL_ERROR = "☹ OOPS!!! I'm sorry, but I don't know what that means :-(";
 
 
-
     public static void main(String[] args) throws DukeExceptions {
 
         //creating list of task
         ArrayList<Task> taskings = new ArrayList<>();
 
-        File file = new File("/Users/desmond/ip/data");
+        File file = new File("./data");
         file.mkdir();
-        File file1 = new File("/Users/desmond/ip/data/duke.txt");
+        File file1 = new File("./data/duke.txt");
         try {
             file1.createNewFile();
         } catch (IOException e) {
@@ -35,7 +34,7 @@ public class Duke {
 
         try {
 
-            File file2 = new File("/Users/desmond/ip/data/duke.txt");
+            File file2 = new File("./data/duke.txt");
             Scanner sc = new Scanner(file2);
             sc.useDelimiter("/");
 
@@ -47,32 +46,36 @@ public class Duke {
                 String function = sc.next();
 
 
+
                 String done = sc.next();
                 boolean isDone = false;
+                System.out.println(function);
 
-                if (done == "1") {
+                if (done.equals("1")) {
                     isDone = true;
                 }
 
 
-                if (function == "D") {
+                if (function.equals("D")) {
                     String description = sc.next();
                     String date = sc.next();
-                    loadingTask = new Deadline (description, date, isDone);
+                    loadingTask = new Deadline(description, date, isDone);
                     taskings.add(loadingTask);
-                } else if (function == "T") {
-                      String restOfDescription = sc.next();
-                    loadingTask = new Todo (restOfDescription,isDone);
+                } else if (function.equals("T")) {
+                    String restOfDescription = sc.next();
+                    loadingTask = new Todo(restOfDescription, isDone);
                     taskings.add(loadingTask);
-                } else if (function == "E") {
+                } else if (function.equals("E")) {
                     String description = sc.next();
                     String date = sc.next();
-                    loadingTask = new Event (description, date, isDone);
+                    loadingTask = new Event(description, date, isDone);
                     taskings.add(loadingTask);
+                    System.out.println(loadingTask.toString());
                 }
-        }
 
+            }
             sc.close();
+
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -91,7 +94,6 @@ public class Duke {
 
         //user inputs into line string
         String line;
-
 
 
         Task[] list;
@@ -131,17 +133,18 @@ public class Duke {
             startsWithTodo = line.startsWith("todo");
             startsWithEvent = line.startsWith("event");
             startsWithDelete = line.startsWith("delete");
+            if (startsWithList) { //list command given
 
-            try {
+                System.out.println("Here are the tasks in your list:");
+                for (numeration = 0; numeration < itemNumber; numeration++) {
+                    System.out.println(numeration + 1 + "." + taskings.get(numeration).toString());
+                }
 
-                if (startsWithList) { //list command given
+            } else
 
-                    System.out.println("Here are the tasks in your list:");
-                    for (numeration = 0; numeration < itemNumber; numeration++) {
-                        System.out.println(numeration + 1 + "." + taskings.get(numeration).toString());
-                    }
+                try {
 
-                } else if (startsWithDone) { //done command given
+                    if (startsWithDone) { //done command given
                     itemDone = Integer.parseInt(line.substring(5));
 //                    list[itemDone].markAsDone();
                     taskings.get((itemDone - 1)).markAsDone();
@@ -161,7 +164,7 @@ public class Duke {
                 } else if (startsWithTodo) { //todo command given
 //                    list[itemNumber] = new Todo(line.substring(5), isDone);
                     taskings.add(new Todo(line.substring(5), isDone));
-                    System.out.println("Got it. I've added this task:\n  " + taskings.get(itemNumber).toString() + "\nNow you have " + (itemNumber + 1 )+ " tasks in the list.");
+                    System.out.println("Got it. I've added this task:\n  " + taskings.get(itemNumber).toString() + "\nNow you have " + (itemNumber + 1) + " tasks in the list.");
                     itemNumber++;
 
                 } else if (startsWithEvent) { //event command given
