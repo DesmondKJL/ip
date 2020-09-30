@@ -46,7 +46,6 @@ public class Duke {
                 String function = sc.next();
 
 
-
                 String done = sc.next();
                 boolean isDone = false;
                 System.out.println(function);
@@ -113,6 +112,7 @@ public class Duke {
         boolean startsWithDeadline = false;
         boolean startsWithEvent = false;
         boolean startsWithDelete = false;
+        boolean startsWithFind = false;
         boolean isDone = false;
 
         //other variables
@@ -133,6 +133,8 @@ public class Duke {
             startsWithTodo = line.startsWith("todo");
             startsWithEvent = line.startsWith("event");
             startsWithDelete = line.startsWith("delete");
+            startsWithFind = line.startsWith("find");
+
             if (startsWithList) { //list command given
 
                 System.out.println("Here are the tasks in your list:");
@@ -145,65 +147,78 @@ public class Duke {
                 try {
 
                     if (startsWithDone) { //done command given
-                    itemDone = Integer.parseInt(line.substring(5));
+                        itemDone = Integer.parseInt(line.substring(5));
 //                    list[itemDone].markAsDone();
-                    taskings.get((itemDone - 1)).markAsDone();
-                    System.out.println("Nice! I've marked this task as done:\n    \u2713 " + taskings.get(itemDone - 1).getDescription());
+                        taskings.get((itemDone - 1)).markAsDone();
+                        System.out.println("Nice! I've marked this task as done:\n    \u2713 " + taskings.get(itemDone - 1).getDescription());
 //                    System.out.println("Nice! I've marked this task as done:\n    \u2713 " + list[itemDone].getDescription());
 
-                } else if (startsWithDeadline) { //deadline command given
-                    indexOfBackslash = line.indexOf("/");
-                    deadlineDate = line.substring(indexOfBackslash + 4);
-                    line = line.substring(9, indexOfBackslash - 1);
+                    } else if (startsWithDeadline) { //deadline command given
+                        indexOfBackslash = line.indexOf("/");
+                        deadlineDate = line.substring(indexOfBackslash + 4);
+                        line = line.substring(9, indexOfBackslash - 1);
 //                    list[itemNumber] = new Deadline(line, deadlineDate, isDone);
 //                    System.out.println("Got it. I've added this task:\n  " + list[itemNumber].toString() + "\nNow you have " + itemNumber + " tasks in the list.");
-                    taskings.add(new Deadline(line, deadlineDate, isDone));
-                    System.out.println("Got it. I've added this task:\n  " + taskings.get(itemNumber).toString() + "\nNow you have " + (itemNumber + 1) + " tasks in the list.");
-                    itemNumber++;
+                        taskings.add(new Deadline(line, deadlineDate, isDone));
+                        System.out.println("Got it. I've added this task:\n  " + taskings.get(itemNumber).toString() + "\nNow you have " + (itemNumber + 1) + " tasks in the list.");
+                        itemNumber++;
 
-                } else if (startsWithTodo) { //todo command given
+                    } else if (startsWithTodo) { //todo command given
 //                    list[itemNumber] = new Todo(line.substring(5), isDone);
-                    taskings.add(new Todo(line.substring(5), isDone));
-                    System.out.println("Got it. I've added this task:\n  " + taskings.get(itemNumber).toString() + "\nNow you have " + (itemNumber + 1) + " tasks in the list.");
-                    itemNumber++;
+                        taskings.add(new Todo(line.substring(5), isDone));
+                        System.out.println("Got it. I've added this task:\n  " + taskings.get(itemNumber).toString() + "\nNow you have " + (itemNumber + 1) + " tasks in the list.");
+                        itemNumber++;
 
-                } else if (startsWithEvent) { //event command given
-                    indexOfBackslash = line.indexOf("/");
-                    deadlineDate = line.substring(indexOfBackslash + 4);
-                    line = line.substring(6, indexOfBackslash - 1);
-                    taskings.add(new Event(line, deadlineDate, isDone));
+                    } else if (startsWithEvent) { //event command given
+                        indexOfBackslash = line.indexOf("/");
+                        deadlineDate = line.substring(indexOfBackslash + 4);
+                        line = line.substring(6, indexOfBackslash - 1);
+                        taskings.add(new Event(line, deadlineDate, isDone));
 //                    list[itemNumber] = new Event(line, deadlineDate, isDone);
 //                    System.out.println("Got it. I've added this task:\n  " + list[itemNumber].toString() + "\nNow you have " + itemNumber + " tasks in the list.");
-                    System.out.println("Got it. I've added this task:\n  " + taskings.get(itemNumber).toString() + "\nNow you have " + (itemNumber + 1) + " tasks in the list.");
-                    itemNumber++;
+                        System.out.println("Got it. I've added this task:\n  " + taskings.get(itemNumber).toString() + "\nNow you have " + (itemNumber + 1) + " tasks in the list.");
+                        itemNumber++;
 
-                } else if (startsWithDelete) {
+                    } else if (startsWithDelete) {
 
-                    taskNumber = Integer.parseInt(line.substring(7));
-                    System.out.println("Noted. I've removed this task: \n  " + taskings.get(taskNumber - 1).toString() + "\nNow you have " + (itemNumber - 1) + " tasks in the list.");
-                    taskings.remove(taskNumber - 1);
-                    itemNumber--;
+                        taskNumber = Integer.parseInt(line.substring(7));
+                        System.out.println("Noted. I've removed this task: \n  " + taskings.get(taskNumber - 1).toString() + "\nNow you have " + (itemNumber - 1) + " tasks in the list.");
+                        taskings.remove(taskNumber - 1);
+                        itemNumber--;
 
-                } else if (!startsWithBye) {
-                    throw new DukeExceptions();
+                    } else if (startsWithFind) {
+                        int numberOfMatchedTasks = 0;
+                        line = line.substring(5);
+                        System.out.println("Here are the matching tasks in your list:");
+                        for (numeration = 0; numeration < itemNumber; numeration++) {
+                            String check = taskings.get(numeration).toString();
+                            if (check.contains(line)) {
+                                numberOfMatchedTasks++;
+                                System.out.println((numeration + 1) + ". " + check);
+                            }
+                        }
+
+
+                    } else if (!startsWithBye) {
+                        throw new DukeExceptions();
+                    }
+
+
+                } catch (IndexOutOfBoundsException e) {
+                    if (startsWithTodo) {
+                        System.out.println(TODO_ERROR);
+                    } else if (startsWithEvent) {
+                        System.out.println(EVENT_DESCRIPTION_ERROR);
+                    } else if (startsWithDeadline) {
+                        System.out.println(DEADLINE_DESCRIPTION_ERROR);
+                    }
+                } catch (NullPointerException e) {
+                    System.out.println(DONE_WRONG_NUMBER_ERROR);
+                } catch (NumberFormatException e) {
+                    System.out.println(DONE_ERROR);
+                } catch (DukeExceptions e) {
+                    System.out.println(GENERAL_ERROR);
                 }
-
-
-            } catch (IndexOutOfBoundsException e) {
-                if (startsWithTodo) {
-                    System.out.println(TODO_ERROR);
-                } else if (startsWithEvent) {
-                    System.out.println(EVENT_DESCRIPTION_ERROR);
-                } else if (startsWithDeadline) {
-                    System.out.println(DEADLINE_DESCRIPTION_ERROR);
-                }
-            } catch (NullPointerException e) {
-                System.out.println(DONE_WRONG_NUMBER_ERROR);
-            } catch (NumberFormatException e) {
-                System.out.println(DONE_ERROR);
-            } catch (DukeExceptions e) {
-                System.out.println(GENERAL_ERROR);
-            }
         }
 
         System.out.println("Bye. Hope to see you again soon!\n");
