@@ -1,2 +1,4 @@
+[D] ✓ CS2113 (by: Friday 18 September 2020 from 4 pm to 6 pm)
 [E] ✓ CS2113 (at: Friday 18 September 2020 from 4 pm to 6 pm)
-[E] ✓ CS2113 (at: Friday 18 September 2020 from 4 pm to 6 pm)
+[T] ✘ babi
+[T] ✓ babi bankai

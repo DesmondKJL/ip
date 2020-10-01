@@ -57,23 +57,24 @@ public class Duke {
 
 
 
-                if (function.equals("D")) {
+                if (function.startsWith("[D]")) {
 //
-                    String description = sc.next();
-                    String date = sc.next();
-                    loadingTask = new Deadline(description, date);
-                    taskings.add(loadingTask);
-
+                    done = function.substring(4, 5);
+                    indexOfRightBracket = function.indexOf(")");
+                    indexOfLeftBracket = function.indexOf("(");
+                    deadlineDate = function.substring(indexOfLeftBracket + 5, indexOfRightBracket);
+                    function = function.substring(6, indexOfLeftBracket - 1);
+                    taskings.add(new Deadline(function, deadlineDate));
                     itemNumber++;
 
-                } else if (function.equals("T")) {
-                    String restOfDescription = sc.next();
-                    loadingTask = new Todo(restOfDescription);
-                    taskings.add(loadingTask);
+                } else if (function.startsWith("[T]")) {
+                    done = function.substring(4, 5);
+                    function = function.substring(6);
+                    taskings.add(new Todo(function));
                     itemNumber++;
+
                 } else if (function.startsWith("[E]")) {
                     done = function.substring(4, 5);
-                    System.out.println(done);
                     indexOfRightBracket = function.indexOf(")");
                     indexOfLeftBracket = function.indexOf("(");
                     deadlineDate = function.substring(indexOfLeftBracket + 5, indexOfRightBracket);
