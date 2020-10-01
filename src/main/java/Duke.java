@@ -37,7 +37,7 @@ public class Duke {
 
             File file2 = new File("./data/duke.txt");
             Scanner sc = new Scanner(file2);
-            sc.useDelimiter("/|\\n");
+            sc.useDelimiter("\\n");
 
 
             while (sc.hasNext()) {
@@ -48,9 +48,12 @@ public class Duke {
                 String function = sc.next();
 
 
-                String done = sc.next();
-                System.out.println(done);
-
+                //String done = sc.next();
+                //System.out.println(done);
+                int indexOfRightBracket = 0;
+                int indexOfLeftBracket = 0;
+                String deadlineDate;
+                String done = "";
 
 
 
@@ -60,9 +63,7 @@ public class Duke {
                     String date = sc.next();
                     loadingTask = new Deadline(description, date);
                     taskings.add(loadingTask);
-                    if (done.equals("1")) {
-                        taskings.get(itemNumber).markAsDone();
-                    }
+
                     itemNumber++;
 
                 } else if (function.equals("T")) {
@@ -70,12 +71,18 @@ public class Duke {
                     loadingTask = new Todo(restOfDescription);
                     taskings.add(loadingTask);
                     itemNumber++;
-                } else if (function.equals("E")) {
-                    String description = sc.next();
-                    String date = sc.next();
-                    loadingTask = new Event(description, date);
-                    taskings.add(loadingTask);
+                } else if (function.startsWith("[E]")) {
+                    done = function.substring(4, 5);
+                    System.out.println(done);
+                    indexOfRightBracket = function.indexOf(")");
+                    indexOfLeftBracket = function.indexOf("(");
+                    deadlineDate = function.substring(indexOfLeftBracket + 5, indexOfRightBracket);
+                    function = function.substring(6, indexOfLeftBracket - 1);
+                    taskings.add(new Event(function, deadlineDate));
                     itemNumber++;
+                }
+                if (done.equals("\u2713")) {
+                    taskings.get(itemNumber-1).markAsDone();
                 }
 
             }
@@ -202,6 +209,7 @@ public class Duke {
 
                     } else if (!startsWithBye) {
                         throw new DukeExceptions();
+
                     }
 
 
@@ -220,8 +228,20 @@ public class Duke {
                 } catch (DukeExceptions e) {
                     System.out.println(GENERAL_ERROR);
                 }
+
         }
 
+        try {
+            FileWriter fw = new FileWriter("./data/duke.txt");
+            for (Task task : taskings) {
+                String listOfTasks = task.toString() + System.lineSeparator();
+                fw.append(listOfTasks);
+            }
+            fw.close();
+        } catch (IOException e) {
+            System.out.println("Cannot save data to disk!");
+            e.printStackTrace();
+        }
         System.out.println("Bye. Hope to see you again soon!\n");
 
     }

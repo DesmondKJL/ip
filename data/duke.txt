@@ -1,2 +1,2 @@
-E/1/CS2113/Friday 18 September 2020 from 4 pm to 6 pm
-T/1/Babi
+[E] ✓ CS2113 (at: Friday 18 September 2020 from 4 pm to 6 pm)
+[E] ✓ CS2113 (at: Friday 18 September 2020 from 4 pm to 6 pm)
