@@ -20,6 +20,7 @@ public class Duke {
 
     public static void main(String[] args) throws DukeExceptions {
 
+        int itemNumber = 0;
         //creating list of task
         ArrayList<Task> taskings = new ArrayList<>();
 
@@ -36,7 +37,8 @@ public class Duke {
 
             File file2 = new File("./data/duke.txt");
             Scanner sc = new Scanner(file2);
-            sc.useDelimiter("/");
+            sc.useDelimiter("/|\\n");
+
 
             while (sc.hasNext()) {
 
@@ -47,29 +49,33 @@ public class Duke {
 
 
                 String done = sc.next();
-                boolean isDone = false;
-                System.out.println(function);
+                System.out.println(done);
 
-                if (done.equals("1")) {
-                    isDone = true;
-                }
+
 
 
                 if (function.equals("D")) {
+//
                     String description = sc.next();
                     String date = sc.next();
-                    loadingTask = new Deadline(description, date, isDone);
+                    loadingTask = new Deadline(description, date);
                     taskings.add(loadingTask);
+                    if (done.equals("1")) {
+                        taskings.get(itemNumber).markAsDone();
+                    }
+                    itemNumber++;
+
                 } else if (function.equals("T")) {
                     String restOfDescription = sc.next();
-                    loadingTask = new Todo(restOfDescription, isDone);
+                    loadingTask = new Todo(restOfDescription);
                     taskings.add(loadingTask);
+                    itemNumber++;
                 } else if (function.equals("E")) {
                     String description = sc.next();
                     String date = sc.next();
-                    loadingTask = new Event(description, date, isDone);
+                    loadingTask = new Event(description, date);
                     taskings.add(loadingTask);
-                    System.out.println(loadingTask.toString());
+                    itemNumber++;
                 }
 
             }
@@ -94,12 +100,8 @@ public class Duke {
         //user inputs into line string
         String line;
 
-
-        Task[] list;
-        list = new Task[100];
-
         //variables for list
-        int itemNumber = 0;
+
         int itemDone = 0;
         int numeration = 1;
         int taskNumber = 0;
@@ -113,7 +115,6 @@ public class Duke {
         boolean startsWithEvent = false;
         boolean startsWithDelete = false;
         boolean startsWithFind = false;
-        boolean isDone = false;
 
         //other variables
         int indexOfBackslash = 0;
@@ -159,13 +160,13 @@ public class Duke {
                         line = line.substring(9, indexOfBackslash - 1);
 //                    list[itemNumber] = new Deadline(line, deadlineDate, isDone);
 //                    System.out.println("Got it. I've added this task:\n  " + list[itemNumber].toString() + "\nNow you have " + itemNumber + " tasks in the list.");
-                        taskings.add(new Deadline(line, deadlineDate, isDone));
+                        taskings.add(new Deadline(line, deadlineDate));
                         System.out.println("Got it. I've added this task:\n  " + taskings.get(itemNumber).toString() + "\nNow you have " + (itemNumber + 1) + " tasks in the list.");
                         itemNumber++;
 
                     } else if (startsWithTodo) { //todo command given
 //                    list[itemNumber] = new Todo(line.substring(5), isDone);
-                        taskings.add(new Todo(line.substring(5), isDone));
+                        taskings.add(new Todo(line.substring(5)));
                         System.out.println("Got it. I've added this task:\n  " + taskings.get(itemNumber).toString() + "\nNow you have " + (itemNumber + 1) + " tasks in the list.");
                         itemNumber++;
 
@@ -173,7 +174,7 @@ public class Duke {
                         indexOfBackslash = line.indexOf("/");
                         deadlineDate = line.substring(indexOfBackslash + 4);
                         line = line.substring(6, indexOfBackslash - 1);
-                        taskings.add(new Event(line, deadlineDate, isDone));
+                        taskings.add(new Event(line, deadlineDate));
 //                    list[itemNumber] = new Event(line, deadlineDate, isDone);
 //                    System.out.println("Got it. I've added this task:\n  " + list[itemNumber].toString() + "\nNow you have " + itemNumber + " tasks in the list.");
                         System.out.println("Got it. I've added this task:\n  " + taskings.get(itemNumber).toString() + "\nNow you have " + (itemNumber + 1) + " tasks in the list.");
