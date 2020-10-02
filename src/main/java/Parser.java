@@ -1,47 +1,70 @@
+/**
+ * Object class that deals with making sense of the user command
+ */
 public class Parser {
 
-
-     public static boolean startsWithBye(String userInput){
-         return (userInput.startsWith("bye"));
-     }
-
-     public boolean startsWithList(String userInput){
-        return (userInput.startsWith("list"));
-     }
-
-    public boolean startsWithDone(String userInput){
-        return (userInput.startsWith("done"));
-    }
-    public static boolean startsWithTodo(String userInput){
-        return (userInput.startsWith("todo"));
-    }
-    public boolean startsWithEvent(String userInput){
-        return (userInput.startsWith("event"));
-    }
-    public static boolean startsWithDeadline(String userInput){
-        return (userInput.startsWith("deadline"));
-    }
-    public boolean startsWithDelete(String userInput){
-        return (userInput.startsWith("delete"));
-    }
-    public boolean startsWithFind(String userInput){
-        return (userInput.startsWith("Find"));
+    /**
+     * Checks whether user input start with the word bye
+     * and returns a boolean value
+     */
+    public static boolean startsWithBye(String userInput) {
+        return (userInput.toLowerCase().startsWith("bye"));
     }
 
-//    boolean startsWithBye = false;
-//    boolean startsWithList = false;
-//    boolean startsWithDone = false;
-//    boolean startsWithTodo = false;
-//    boolean startsWithDeadline = false;
-//    boolean startsWithEvent = false;
-//    boolean startsWithDelete = false;
-//    boolean startsWithFind = false;
-//    startsWithBye = line.startsWith("bye");
-//    startsWithList = line.startsWith("list");
-//    startsWithDone = line.startsWith("done");
-//    startsWithDeadline = line.startsWith("deadline");
-//    startsWithTodo = line.startsWith("todo");
-//    startsWithEvent = line.startsWith("event");
-//    startsWithDelete = line.startsWith("delete");
-//    startsWithFind = line.startsWith("find");
+    /**
+     * Checks whether user input start with the word list
+     * and returns a boolean value
+     */
+    public boolean startsWithList(String userInput) {
+        return (userInput.toLowerCase().startsWith("list"));
+    }
+
+    /**
+     * Checks whether user input start with the word Done
+     * and returns a boolean value
+     */
+    public boolean startsWithDone(String userInput) {
+        return (userInput.toLowerCase().startsWith("done"));
+    }
+
+    /**
+     * Checks whether user input start with the word Todo
+     * and returns a boolean value
+     */
+    public static boolean startsWithTodo(String userInput) {
+        return (userInput.toLowerCase().startsWith("todo"));
+    }
+
+    /**
+     * Checks whether user input start with the word Event
+     * and returns a boolean value
+     */
+    public boolean startsWithEvent(String userInput) {
+        return (userInput.toLowerCase().startsWith("event"));
+    }
+
+    /**
+     * Checks whether user input start with the word Deadline
+     * and returns a boolean value
+     */
+    public static boolean startsWithDeadline(String userInput) {
+        return (userInput.toLowerCase().startsWith("deadline"));
+    }
+
+    /**
+     * Checks whether user input start with the word Delete
+     * and returns a boolean value
+     */
+    public boolean startsWithDelete(String userInput) {
+        return (userInput.toLowerCase().startsWith("delete"));
+    }
+
+    /**
+     * Checks whether user input start with the word Find
+     * and returns a boolean value
+     */
+    public boolean startsWithFind(String userInput) {
+        return (userInput.toLowerCase().startsWith("find"));
+    }
+
 }
