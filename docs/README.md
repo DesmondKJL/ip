@@ -104,8 +104,7 @@ Example of usage:
 Expected outcome:
 
 `Here are the matching tasks in your list:
-7. [T] ✘ read book
-8. [E] ✘ read book (at: 3 dec)`
+7. [T] ✘ read book`
 
 
 
@@ -119,6 +118,16 @@ Expected outcome:
 `Here are the tasks in your list:
 1.[D] ✘ read book (by: sunday)
 2.[E] ✘ read book (at: sunday)`
+
+### `bye` - shutdown duke
+Example of usage: 
+
+`bye`
+
+Expected outcome:
+
+`Bye. Hope to see you again soon!`
+
 
 
 
