@@ -8,22 +8,22 @@ import java.io.FileNotFoundException;
 
 public class Duke {
 
-    protected static final String TODO_ERROR = "☹ OOPS!!! The description of a todo cannot be empty.";
-    protected static final String DEADLINE_DESCRIPTION_ERROR = "☹ OOPS!!! The description of a deadline cannot be empty.";
-    protected static final String EVENT_DESCRIPTION_ERROR = "☹ OOPS!!! The description of a event cannot be empty.";
-    protected static final String DEADLINE_DATE_ERROR = "☹ OOPS!!! Please add a date for this deadline task";
-    protected static final String EVENT_DATE_ERROR = "☹ OOPS!!! Please add a date for this event task";
-    protected static final String DONE_WRONG_NUMBER_ERROR = "☹ OOPS!!! Please provide a valid task number";
-    protected static final String DONE_ERROR = "☹ OOPS!!! Please input the command correctly (e.g done 1)";
-    protected static final String GENERAL_ERROR = "☹ OOPS!!! I'm sorry, but I don't know what that means :-(";
+
+    private TaskList taskings;
+    private Storage storage;
+    private Ui ui;
+    private Parser parse;
 
 
-    public static void main(String[] args) throws DukeExceptions {
-
+    public Duke(String filePath) {
+        ui = new Ui();
+        ui.displayWelcomeMessage();
+        parse = new Parser();
+        storage = new Storage();
+        Scanner in = new Scanner(System.in);
+        String line = "";
         int itemNumber = 0;
-        //creating list of task
-        ArrayList<Task> taskings = new ArrayList<>();
-
+        TaskList taskings =  new TaskList();
         File file = new File("./data");
         file.mkdir();
         File file1 = new File("./data/duke.txt");
@@ -42,23 +42,14 @@ public class Duke {
 
             while (sc.hasNext()) {
 
-                //Get the info for the pet
-                Task loadingTask;
-
                 String function = sc.next();
-
-
-                //String done = sc.next();
-                //System.out.println(done);
                 int indexOfRightBracket = 0;
                 int indexOfLeftBracket = 0;
                 String deadlineDate;
                 String done = "";
 
-
-
                 if (function.startsWith("[D]")) {
-//
+
                     done = function.substring(4, 5);
                     indexOfRightBracket = function.indexOf(")");
                     indexOfLeftBracket = function.indexOf("(");
@@ -94,57 +85,21 @@ public class Duke {
             e.printStackTrace();
         }
 
-
-        String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
-        System.out.println("Hello from\n" + logo);
-        System.out.println("Hello! I'm Duke\n");
-        System.out.println("What can I do for you?\n");
-        Scanner in = new Scanner(System.in);
-
-        //user inputs into line string
-        String line;
-
         //variables for list
-
         int itemDone = 0;
         int numeration = 1;
         int taskNumber = 0;
-
-        //variables to check command
-        boolean startsWithBye = false;
-        boolean startsWithList = false;
-        boolean startsWithDone = false;
-        boolean startsWithTodo = false;
-        boolean startsWithDeadline = false;
-        boolean startsWithEvent = false;
-        boolean startsWithDelete = false;
-        boolean startsWithFind = false;
 
         //other variables
         int indexOfBackslash = 0;
         String deadlineDate;
 
-
-        while (!startsWithBye) {
+        while (!parse.startsWithBye(line)) {
 
             //waiting for user input
             line = in.nextLine();
 
-            //checking command
-            startsWithBye = line.startsWith("bye");
-            startsWithList = line.startsWith("list");
-            startsWithDone = line.startsWith("done");
-            startsWithDeadline = line.startsWith("deadline");
-            startsWithTodo = line.startsWith("todo");
-            startsWithEvent = line.startsWith("event");
-            startsWithDelete = line.startsWith("delete");
-            startsWithFind = line.startsWith("find");
-
-            if (startsWithList) { //list command given
+            if (parse.startsWithList(line)) { //list command given
 
                 System.out.println("Here are the tasks in your list:");
                 for (numeration = 0; numeration < itemNumber; numeration++) {
@@ -155,48 +110,42 @@ public class Duke {
 
                 try {
 
-                    if (startsWithDone) { //done command given
+                    if (parse.startsWithDone(line)) { //done command given
                         itemDone = Integer.parseInt(line.substring(5));
-//                    list[itemDone].markAsDone();
                         taskings.get((itemDone - 1)).markAsDone();
                         System.out.println("Nice! I've marked this task as done:\n    \u2713 " + taskings.get(itemDone - 1).getDescription());
-//                    System.out.println("Nice! I've marked this task as done:\n    \u2713 " + list[itemDone].getDescription());
 
-                    } else if (startsWithDeadline) { //deadline command given
+                    } else if (parse.startsWithDeadline(line)) { //deadline command given
                         indexOfBackslash = line.indexOf("/");
                         deadlineDate = line.substring(indexOfBackslash + 4);
                         line = line.substring(9, indexOfBackslash - 1);
-//                    list[itemNumber] = new Deadline(line, deadlineDate, isDone);
-//                    System.out.println("Got it. I've added this task:\n  " + list[itemNumber].toString() + "\nNow you have " + itemNumber + " tasks in the list.");
                         taskings.add(new Deadline(line, deadlineDate));
                         System.out.println("Got it. I've added this task:\n  " + taskings.get(itemNumber).toString() + "\nNow you have " + (itemNumber + 1) + " tasks in the list.");
                         itemNumber++;
 
-                    } else if (startsWithTodo) { //todo command given
-//                    list[itemNumber] = new Todo(line.substring(5), isDone);
+                    } else if (parse.startsWithTodo(line)) { //todo command given
                         taskings.add(new Todo(line.substring(5)));
                         System.out.println("Got it. I've added this task:\n  " + taskings.get(itemNumber).toString() + "\nNow you have " + (itemNumber + 1) + " tasks in the list.");
                         itemNumber++;
 
-                    } else if (startsWithEvent) { //event command given
+                    } else if (parse.startsWithEvent(line)) { //event command given
                         indexOfBackslash = line.indexOf("/");
                         deadlineDate = line.substring(indexOfBackslash + 4);
                         line = line.substring(6, indexOfBackslash - 1);
                         taskings.add(new Event(line, deadlineDate));
-//                    list[itemNumber] = new Event(line, deadlineDate, isDone);
-//                    System.out.println("Got it. I've added this task:\n  " + list[itemNumber].toString() + "\nNow you have " + itemNumber + " tasks in the list.");
                         System.out.println("Got it. I've added this task:\n  " + taskings.get(itemNumber).toString() + "\nNow you have " + (itemNumber + 1) + " tasks in the list.");
                         itemNumber++;
 
-                    } else if (startsWithDelete) {
+                    } else if (parse.startsWithDelete(line)) {
 
                         taskNumber = Integer.parseInt(line.substring(7));
                         System.out.println("Noted. I've removed this task: \n  " + taskings.get(taskNumber - 1).toString() + "\nNow you have " + (itemNumber - 1) + " tasks in the list.");
                         taskings.remove(taskNumber - 1);
                         itemNumber--;
 
-                    } else if (startsWithFind) {
+                    } else if (parse.startsWithFind(line)) {
                         int numberOfMatchedTasks = 0;
+
                         line = line.substring(5);
                         System.out.println("Here are the matching tasks in your list:");
                         for (numeration = 0; numeration < itemNumber; numeration++) {
@@ -208,42 +157,36 @@ public class Duke {
                         }
 
 
-                    } else if (!startsWithBye) {
+                    } else if (!parse.startsWithBye(line)) {
                         throw new DukeExceptions();
 
                     }
 
 
                 } catch (IndexOutOfBoundsException e) {
-                    if (startsWithTodo) {
-                        System.out.println(TODO_ERROR);
-                    } else if (startsWithEvent) {
-                        System.out.println(EVENT_DESCRIPTION_ERROR);
-                    } else if (startsWithDeadline) {
-                        System.out.println(DEADLINE_DESCRIPTION_ERROR);
+                    if (parse.startsWithTodo(line)) {
+                        ui.displayTodoErrorMessage();
+                    } else if (parse.startsWithEvent(line)) {
+                        ui.displayEventErrorMessage();
+                    } else if (parse.startsWithDeadline(line)) {
+                        ui.displayDeadlineErrorMessage();
                     }
                 } catch (NullPointerException e) {
-                    System.out.println(DONE_WRONG_NUMBER_ERROR);
+                    ui.displayGeneralErrorMessage();
                 } catch (NumberFormatException e) {
-                    System.out.println(DONE_ERROR);
+                    ui.displayGeneralErrorMessage();
                 } catch (DukeExceptions e) {
-                    System.out.println(GENERAL_ERROR);
+                    ui.displayGeneralErrorMessage();
                 }
 
         }
+        storage.save(taskings);
+        ui.displayByeMessage();
+    }
 
-        try {
-            FileWriter fw = new FileWriter("./data/duke.txt");
-            for (Task task : taskings) {
-                String listOfTasks = task.toString() + System.lineSeparator();
-                fw.append(listOfTasks);
-            }
-            fw.close();
-        } catch (IOException e) {
-            System.out.println("Cannot save data to disk!");
-            e.printStackTrace();
-        }
-        System.out.println("Bye. Hope to see you again soon!\n");
+    public static void main(String[] args) throws DukeExceptions {
+
+        new Duke("./data");
 
     }
 }
