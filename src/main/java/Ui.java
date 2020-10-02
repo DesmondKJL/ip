@@ -30,10 +30,10 @@ public class Ui {
     public static void displayGeneralErrorMessage() {
         System.out.println(GENERAL_ERROR);
     }
+
     public static void displayEventErrorMessage() {
         System.out.println(EVENT_DESCRIPTION_ERROR);
     }
-
 
 
 }

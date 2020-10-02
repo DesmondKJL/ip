@@ -3,13 +3,12 @@ import java.io.IOException;
 
 public class Storage {
 
-    public Storage(){
+    public Storage() {
 
     }
 
 
-
-    public void save(TaskList taskings){
+    public void save(TaskList taskings) {
 
         try {
             FileWriter fw = new FileWriter("./data/duke.txt");
