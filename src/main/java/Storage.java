@@ -1,13 +1,21 @@
 import java.io.FileWriter;
 import java.io.IOException;
-
+/**
+ * Object class that deals with saving tasks in the file
+ */
 public class Storage {
-
+    /**
+     * Creates a storage object
+     */
     public Storage() {
 
     }
 
-
+    /**
+     * Saves data onto file
+     *
+     * @param  taskings is the tasklist currently accessed by the user
+     */
     public void save(TaskList taskings) {
 
         try {

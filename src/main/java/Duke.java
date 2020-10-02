@@ -3,7 +3,9 @@ import java.io.IOException;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-
+/**
+ * Object class of duke
+ */
 public class Duke {
 
 
@@ -11,8 +13,7 @@ public class Duke {
     private Storage storage;
     private Ui ui;
     private Parser parse;
-
-
+    
     public Duke() {
         ui = new Ui();
         ui.displayWelcomeMessage();
@@ -183,7 +184,9 @@ public class Duke {
     }
 
 
-
+    /**
+     * Runs duke
+     */
     public static void main(String[] args) throws DukeExceptions {
 
         new Duke();

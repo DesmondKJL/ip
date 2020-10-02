@@ -1,3 +1,6 @@
+/**
+ * Enables user to create a task
+ */
 public class Task {
     protected String description;
     protected boolean isDone;

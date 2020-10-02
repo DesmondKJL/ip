@@ -1,3 +1,7 @@
+/**
+ * Enables user to create a Deadline task
+ */
+
 public class Deadline extends Task {
 
     protected String by;

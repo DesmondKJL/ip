@@ -1,3 +1,7 @@
+/**
+ * Enables user to create an Todo task
+ */
+
 public class Todo extends Task {
 
     /**
